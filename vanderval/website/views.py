@@ -172,6 +172,8 @@ class TriggerJobApiView(APIView):
         job_status_id = TaskScheduler.schedule_task(user_id, site_id, job_id)
         return Response({'job_status_id': job_status_id})
     
+
+class GetJobStatus(APIView):
     def get(self, request, job_status_id):
         status = UserJobStatus.objects.get(id=job_status_id)
         return Response({

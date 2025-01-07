@@ -11,5 +11,6 @@ urlpatterns = [
     path('job/<int:job_id>/', views.JobDetailAPIView.as_view(), name='get_job'),
 
     path('user-job-details/', views.UserJobsDetailsListAPIView.as_view(), name='create_list_user_jobs_details'),
-    path('trigger-job/', views.TriggerJobApiView.as_view(), name='trigger-job')
+    path('trigger-job/', views.TriggerJobApiView.as_view(), name='trigger-job'),
+    path('trigger-job-detail/<str:job_status_id>', views.GetJobStatus.as_view(), name='trigger-job-detail')
 ]

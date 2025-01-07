@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from django.contrib.auth.models import User
-from .models import Site, Job, UserJobsDetails, UserJobStatus
+from .models import Site, Job, UserJobsDetails, UserJobStatus, UserRecords
 from .serializers import SiteSerializer, UserRecordsSerializer, JobSerializer, UserJobsDetailsSerializer
 from .services import TaskScheduler
 from datetime import date
@@ -73,6 +73,9 @@ class UserRecordsCreateAPIView(APIView):
         except (Site.DoesNotExist, User.DoesNotExist):
             return Response({"error": "User or Site not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        record = UserRecords.objects.filter(user=user, site=site).exists()
+        if record:
+            return Response({"error": "User Record already present for this site"}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserRecordsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

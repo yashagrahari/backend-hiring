@@ -16,11 +16,11 @@ We need to create a system that efficiently handles asynchronous tasks for multi
 * Rationale: Customers with more sites will generate more tasks and consume more resources
 
 ### 2. Job Classification (Time-Based)
-* VERY_FAST: ≤ 0.001s
-* FAST: ≤ 0.01s
-* MEDIUM: ≤ 0.1s
-* SLOW: ≤ 1s
-* VERY_SLOW: > 1s
+* VERY_FAST: > 480s
+* FAST: ≤ 480s
+* MEDIUM: ≤ 360s
+* SLOW: ≤ 240s
+* VERY_SLOW: < 120s
 * Rationale: Different execution times require different resource allocation strategies
 
 ### 3. Queue Management

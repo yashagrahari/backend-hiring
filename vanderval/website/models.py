@@ -35,7 +35,6 @@ class UserRecords(models.Model):
     pincode = models.CharField(max_length=10)
     dob = models.DateField
     is_active = models.BooleanField(default=True)
-
     
     @staticmethod
     def get_customer_volume(customer_id):
@@ -45,7 +44,7 @@ class UserRecords(models.Model):
         site_count = UserRecords.objects.filter(customer_id=customer_id, is_active=True).values('site').distinct().count()
 
         if site_count <= 3:
-            return CustomerVolume.LOW
+            return CustomerVolume.HIGH
         elif 4 <= site_count <= 10:
             return CustomerVolume.MEDIUM
         else:

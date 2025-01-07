@@ -1,10 +1,45 @@
 import logging
 from time import sleep
+from celery import Task
+from .models import UserJobStatus, UserJobsDetails, Job, UserRecords, Site
+from datetime import datetime
+from typing import Any
+from vanderval.celery import app
 
-from .models import Site, UserRecords
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+
+class BaseTaskWithTracking(Task):
+    def on_success(self, retval, task_id, args, kwargs):
+        job_status = UserJobStatus.objects.get(id=kwargs.get('job_status_id'))
+        job_status.status = 'COMPLETED'
+        job_status.completed_at = datetime.now()
+        job_status.save()
+        super().on_success(retval, task_id, args, kwargs)
+
+    def on_failure(self, exc, task_id, args, kwargs, einfo):
+        job_status = UserJobStatus.objects.get(id=kwargs.get('job_status_id'))
+        job_status.status = 'FAILED'
+        job_status.completed_at = datetime.now()
+        job_status.error_message = str(exc)
+        job_status.save()
+        super().on_failure(exc, task_id, args, kwargs, einfo)
+
+
+@app.task(base=BaseTaskWithTracking, bind=True)
+def execute_task(self, task_number: int, site_id: int, **kwargs: Any) -> bool:
+    task_mapping = {
+        1: task_01,
+        2: task_02,
+        3: task_03,
+        4: task_04,
+        5: task_05
+    }
+    
+    return task_mapping[task_number](site_id)
 
 
 def task_01(site_id: int):

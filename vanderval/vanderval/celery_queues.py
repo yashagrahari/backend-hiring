@@ -1,4 +1,4 @@
-from .constants import CustomerVolume, JobExecutionSpeed
+from website.constants import CustomerVolume, JobExecutionSpeed
 from kombu import Queue, Exchange
 
 

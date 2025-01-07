@@ -33,7 +33,7 @@ class UserRecords(models.Model):
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     pincode = models.CharField(max_length=10)
-    dob = models.DateField
+    dob = models.DateField()
     is_active = models.BooleanField(default=True)
     
     @staticmethod

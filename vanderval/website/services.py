@@ -26,9 +26,8 @@ class TaskScheduler:
         print(queue_name)
         job = Job.objects.get(id=job_id)
         task_number = int(job.name.split('_')[1])  
-        print(task_number)
         execute_task.apply_async(
-            args=[task_number, site_id],
+            args=[task_number, job_details.id],
             kwargs={'job_status_id': str(job_status.id)},
             queue=queue_name
         )

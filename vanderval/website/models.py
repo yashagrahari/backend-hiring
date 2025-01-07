@@ -68,16 +68,16 @@ class Job(models.Model):
         """
         Fetch the job type category based on execution time.
         """
-        if execution_time <= 0.001:
-            return JobExecutionSpeed.VERY_FAST
-        elif execution_time <= 0.01:
-            return JobExecutionSpeed.FAST
-        elif execution_time <= 0.1:
-            return JobExecutionSpeed.MEDIUM
-        elif execution_time <= 1:
-            return JobExecutionSpeed.SLOW
-        else:
+        if execution_time <= 120:
             return JobExecutionSpeed.VERY_SLOW
+        elif execution_time <= 240:
+            return JobExecutionSpeed.SLOW
+        elif execution_time <= 360:
+            return JobExecutionSpeed.MEDIUM
+        elif execution_time <= 480:
+            return JobExecutionSpeed.FAST
+        else:
+            return JobExecutionSpeed.VERY_FAST
 
     def get_job_type(self):
         """

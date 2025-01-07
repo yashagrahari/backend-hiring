@@ -44,7 +44,7 @@ class UserRecords(models.Model):
         site_count = UserRecords.objects.filter(customer_id=customer_id, is_active=True).values('site').distinct().count()
 
         if site_count <= 3:
-            return CustomerVolume.HIGH
+            return CustomerVolume.LOW
         elif 4 <= site_count <= 10:
             return CustomerVolume.MEDIUM
         else:
